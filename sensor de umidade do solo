@@ -1,0 +1,76 @@
+Documentação do Código para Leitura de Umidade do Solo
+Descrição
+Este código é projetado para ler os níveis de umidade de um solo utilizando um sensor analógico conectado a um Arduino. A umidade é lida em intervalos de 10 segundos e o resultado é exibido no Monitor Serial, indicando se o solo está seco, ideal ou úmido.
+
+Requisitos
+Placa Arduino (ex: Arduino Uno, Nano, etc.)
+Sensor de umidade do solo (analógico)
+Fios de conexão
+Software Arduino IDE
+Componentes
+Biblioteca: SoftwareSerial.h (não utilizada neste código, mas incluída no cabeçalho)
+Sensor: Sensor de umidade do solo (conectado ao pino A0)
+Pinagem
+O sensor deve ser conectado ao pino A0 do Arduino.
+O pino VCC do sensor deve ser conectado ao pino de 5V do Arduino.
+O pino GND do sensor deve ser conectado ao pino GND do Arduino.
+Código
+cpp
+Copiar código
+// Biblioteca para conexão serial do sensor
+#include <SoftwareSerial.h>
+
+// Variável do sensor
+int sensor = A0;
+
+void setup() {
+  // Definir o sensor como entrada
+  pinMode(sensor, INPUT);
+  // Utilizando o monitor serial
+  Serial.begin(9600);
+}
+
+void loop() {
+  // Guardar o valor lido pelo sensor
+  int umidade = analogRead(sensor);
+ 
+  // Imprimindo o valor lido
+  Serial.print("Umidade do solo: ");  
+  Serial.println(umidade);
+ 
+  // Classificação da umidade do solo
+  if (umidade >= 0 && umidade <= 300) {
+    Serial.println("Solo seco");
+  } else if (umidade > 300 && umidade <= 500) {
+    Serial.println("Solo ideal");
+  } else if (umidade > 500) {
+    Serial.println("Solo úmido");
+  }
+
+  delay(10000); // Espera 10 segundos
+}
+Funcionamento do Código
+Inclusão de Bibliotecas:
+
+O código começa com a inclusão da biblioteca SoftwareSerial, que é uma biblioteca para permitir comunicação serial em pinos digitais do Arduino. Neste exemplo, não é utilizada, mas pode ser útil em projetos que requerem múltiplas conexões seriais.
+Definição de Variáveis:
+
+int sensor = A0;: Define o pino analógico A0 como o pino de entrada para o sensor de umidade.
+Função setup():
+
+pinMode(sensor, INPUT);: Configura o pino do sensor como entrada.
+Serial.begin(9600);: Inicializa a comunicação serial a uma taxa de 9600 bps, permitindo a comunicação com o Monitor Serial.
+Função loop():
+
+int umidade = analogRead(sensor);: Lê o valor analógico do sensor de umidade e armazena na variável umidade.
+Serial.print e Serial.println: Imprimem no Monitor Serial a umidade do solo.
+Condicionais if verificam os níveis de umidade e imprimem uma mensagem correspondente:
+0 a 300: Solo seco.
+301 a 500: Solo ideal.
+Acima de 500: Solo úmido.
+delay(10000);: Pausa o loop por 10 segundos antes da próxima leitura.
+Considerações Finais
+Este código é uma implementação básica para monitoramento de umidade do solo. Pode ser expandido para incluir alarmes, envio de dados para a nuvem ou integração com outros sensores.
+É importante calibrar o sensor e ajustar os limites de umidade conforme a necessidade do cultivo.
+
+
